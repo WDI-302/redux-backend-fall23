@@ -5,6 +5,13 @@ const { createUser } = require('./userHelper')
 module.exports = {
     register: async (req, res) => {
         try {
+            // check if email has a value
+            if (!req.body.email) {
+                throw {
+                    status: 401,
+                    message: 'No User'
+                }
+            }
             // if user exists throw an error
             let foundUser = await User.findOne({email: req.body.email})
             if (foundUser) { 
