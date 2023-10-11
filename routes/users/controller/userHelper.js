@@ -21,8 +21,9 @@ const hashPassword = (password) => {
     return hashedPassword
 }
 
+const comparePasswords = (plaintextPassword, dbPassword) => bcrypt.compare(plaintextPassword, dbPassword)
 
 
 module.exports = {
-    createUser,
+    createUser, comparePasswords
 }
