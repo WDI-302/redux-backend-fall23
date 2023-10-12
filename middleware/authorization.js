@@ -8,6 +8,10 @@ const verifyToken = async (req, res, next) => {
             let decoded = jwt.verify(token, process.env.SUPER_SECERT_KEY)
             // console.log(decoded)
             req.decoded = decoded
+
+            //if always re-sending token to the frontend
+            req.token = token
+            
             next()
         } else {
             throw {

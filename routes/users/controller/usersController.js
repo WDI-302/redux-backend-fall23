@@ -105,6 +105,9 @@ module.exports = {
 
             //set token to orginal
             let token = req.token
+
+            //or set token to null if only sending new token
+            // let token = null
             
             // you can re-issue the token to reset your expiration time.
             // if the time till expiration is less than 15, reissue a token    
