@@ -97,5 +97,36 @@ module.exports = {
         } catch (error) {
             res.status(error.status || 500 ).json(error.message)
         }
+    },
+    authtoken: async (req,res) => {
+        try {
+            // console.log(req.decoded.id)
+            let foundUser = await User.findById(req.decoded.id)
+
+            //set token to orginal
+            let token = req.token
+            
+            // you can re-issue the token to reset your expiration time.
+            // if the time till expiration is less than 15, reissue a token    
+            if (req.decoded.exp < (Math.floor(new Date().getTime() / 1000) + 60*15)) {
+                console.log("Expired!")
+                let payload = { 
+                                id: foundUser._id
+                              }
+                token = await jwt.sign(payload, process.env.SUPER_SECERT_KEY, {expiresIn: 60*15})
+            }
+
+            res.status(200).json({
+                email: foundUser.email,
+                firstname: foundUser.firstname,
+                lastname: foundUser.lastname,                   
+                message: "Successful Login!",
+                token: token
+            })
+        
+            
+        } catch (error) {
+            res.status(error.status || 500 ).json(error.message)
+        }
     }
 }

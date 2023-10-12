@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-const usersController = require('./controller/usersController')
+const usersController = require('./controller/usersController');
+const { verifyToken, hello } = require('../../middleware/authorization');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -17,6 +18,8 @@ router.post('/register', usersController.register)
 
 router.post('/login', usersController.login)
 
+// route for token authorization, uses middleware
+router.post('/authtoken', verifyToken, usersController.authtoken )
 
 
 module.exports = router;
