@@ -5,13 +5,13 @@ const verifyToken = async (req, res, next) => {
         const bearerToken = req.headers.authorization
         if (bearerToken) {
             const token = bearerToken.split(' ')[1]
-            let decoded = jwt.verify(token, process.env.SUPER_SECERT_KEY)
+            let decoded = await jwt.verify(token, process.env.SUPER_SECERT_KEY)
             // console.log(decoded)
-            req.decoded = decoded
-
-            //if always re-sending token to the frontend
-            req.token = token
-            
+            if (decoded) {
+                req.decoded = decoded
+                //if always re-sending token to the frontend
+                req.token = token
+            }
             next()
         } else {
             throw {
@@ -20,6 +20,9 @@ const verifyToken = async (req, res, next) => {
             }
         }
     } catch (error) {
+        if (error.message === 'jwt expired') {
+            res.status(401).json('Authentication Expired')
+        }
         res.status(error.status || 401).json(error.message)
     }
 }

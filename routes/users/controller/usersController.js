@@ -79,9 +79,8 @@ module.exports = {
             if (req.body.isRemember) {
                 expiration = 60*60*24*7
             } else {
-                expiration = 60*15
+                expiration = 60 * 15
             }
-            
 
             let token = await jwt.sign(payload, process.env.SUPER_SECERT_KEY, {expiresIn: expiration})
 
@@ -116,7 +115,7 @@ module.exports = {
                 let payload = { 
                                 id: foundUser._id
                               }
-                token = await jwt.sign(payload, process.env.SUPER_SECERT_KEY, {expiresIn: 60*15})
+                token = await jwt.sign(payload, process.env.SUPER_SECERT_KEY, {expiresIn: 60 * 15})
             }
 
             res.status(200).json({
