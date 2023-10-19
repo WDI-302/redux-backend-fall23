@@ -55,7 +55,7 @@ module.exports = {
             if (!checkedPassword) {
                 throw {
                     status: 401,
-                    message: "Invalid Password"
+                    message: "Incorrect Password"
                 }
             }
 
